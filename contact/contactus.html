@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | First Aid Finance</title>
+    <meta name="description" content="Get in touch with the experts at First Aid Finance. Specialized financial solutions for allied health professionals.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* CLIENT THEME COLORS */
+            --mustard: #FFC800;
+            --mustard-dark: #E6B400;
+            --black: #050505;
+            --charcoal: #1A1A1A;
+            --white: #FFFFFF;
+            --gray-light: #F3F4F6;
+            --gray-medium: #9CA3AF;
+            
+            /* Dimensions */
+            --nav-height: 80px;
+            --container: 1280px;
+            --radius: 4px;
+            
+            /* --- ANIMATION SETTINGS --- */
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --anim-duration: 1.5s;
+            --anim-distance: 80px;
+        }
+
+        /* --- 1. RESET & BASE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { 
+            scroll-behavior: smooth;
+            width: 100%;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--mustard); 
+            border-radius: 2px;
+            border: 2px solid var(--black);
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--white); }
+
+        h1, h2, h3, h4, h5 { color: var(--black); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+        p { color: #4b5563; font-size: 1.05rem; }
+        a { text-decoration: none; transition: 0.3s var(--ease); }
+
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- 2. NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1000;
+            transition: all 0.6s var(--ease);
+            display: flex;
+            align-items: center;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(255,255,255,0.70);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        nav.scrolled::after {
+            content: "";
+            position: absolute; bottom: 0; left: 0; height: 3px; width: 100%;
+            background: linear-gradient(90deg, transparent, var(--mustard), transparent);
+        }
+
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-gif { height: 50px; width: auto; object-fit: contain; }
+        .logo-text { font-size: 1.35rem; font-weight: 800; color: var(--black); text-transform: uppercase; letter-spacing: -0.04em; line-height: 1; display: flex; flex-direction: row; gap: 4px; }
+        .logo-text span { color: var(--mustard-dark); font-weight: 800; }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { color: var(--black); font-weight: 500; font-size: 0.9rem; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background: var(--mustard); transition: width 0.3s var(--ease); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        /* Dropdowns */
+        .nav-item { position: relative; display: flex; align-items: center; height: 100%; }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: -20px; background: var(--white);
+            min-width: 240px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-radius: var(--radius);
+            border-top: 3px solid var(--mustard); padding: 10px 0; opacity: 0; visibility: hidden;
+            transform: translateY(20px); transition: all 0.4s var(--ease); z-index: 1100;
+            display: flex; flex-direction: column;
+        }
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-menu a { padding: 12px 24px; font-size: 0.9rem; color: var(--black); font-weight: 500; display: block; border-bottom: 1px solid #f3f4f6; transition: all 0.2s ease; }
+        .dropdown-menu a:last-child { border-bottom: none; }
+        .dropdown-menu a:hover { background: #fafafa; color: var(--mustard-dark); padding-left: 30px; }
+        .dropdown-menu a::after { display: none; }
+        .nav-item .fa-chevron-down { transition: transform 0.3s var(--ease); font-size: 0.7em; margin-left: 6px; color: var(--mustard); }
+        .nav-item:hover .fa-chevron-down { transform: rotate(180deg); }
+
+        .btn {
+            padding: 14px 28px; background: var(--black); color: var(--white);
+            font-weight: 600; font-size: 0.9rem; border-radius: var(--radius);
+            border: 1px solid var(--black); cursor: pointer; display: inline-flex;
+            align-items: center; gap: 8px; transition: all 0.4s var(--ease);
+        }
+        .btn:hover { background: var(--mustard); color: var(--black); border-color: var(--mustard); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-mustard { background: var(--mustard); color: var(--black); border: 1px solid var(--mustard); }
+        .btn-mustard:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- GENERAL SECTIONS --- */
+        .section-padding { padding: 120px 0; }
+        .bg-light { background: var(--gray-light); }
+        .label {
+            display: inline-block; background: var(--gray-light); padding: 6px 12px;
+            border-radius: 4px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 24px; border-left: 3px solid var(--mustard);
+        }
+        .section-header { margin-bottom: 60px; max-width: 600px; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 16px; }
+
+        /* --- HERO (Simple) --- */
+        .contact-hero {
+            padding: 180px 0 60px;
+            text-align: center;
+            background: linear-gradient(to bottom, #f9fafb, #ffffff);
+        }
+        .contact-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; }
+        .contact-hero h1 span { box-shadow: inset 0 -0.4em 0 var(--mustard); }
+
+        /* --- CONTACT SECTION (From Homepage) --- */
+        .contact-section-new { padding-bottom: 0; }
+        .contact-box {
+            display: grid; grid-template-columns: 1fr 1.5fr; background: var(--white);
+            border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+            margin-bottom: 100px; z-index: 10; position: relative;
+        }
+        .contact-panel-dark {
+            background: var(--black); color: var(--white); padding: 60px 40px;
+            display: flex; flex-direction: column; justify-content: space-between; position: relative;
+        }
+        .contact-panel-dark::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--mustard);
+        }
+        .contact-panel-dark h3 { color: var(--white); font-size: 2rem; margin-bottom: 20px; }
+        .contact-panel-dark p { color: #9CA3AF; margin-bottom: 40px; }
+        
+        .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 30px; }
+        .info-icon { color: var(--mustard); font-size: 1.2rem; margin-top: 5px; }
+        .info-text h5 { color: var(--white); font-size: 1.1rem; margin-bottom: 5px; font-weight: 600; }
+        .info-text p { margin: 0; font-size: 0.95rem; color: #ccc; }
+
+        .contact-panel-form { padding: 60px; background: var(--white); }
+        .field-group { margin-bottom: 25px; }
+        .field-label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; color: var(--black); }
+        .field-input {
+            width: 100%; padding: 15px 0; border: none; border-bottom: 2px solid #E5E7EB;
+            font-family: inherit; font-size: 1rem; background: transparent; transition: all 0.3s var(--ease);
+        }
+        .field-input:focus { outline: none; border-bottom-color: var(--mustard); }
+
+        .full-width-map {
+            width: 100%; height: 450px; background: #e5e5e5; filter: grayscale(100%); transition: filter 0.3s;
+        }
+        .full-width-map:hover { filter: grayscale(0%); }
+
+        /* --- TEAM & REVIEWS STYLES (Adapted to Home Style) --- */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        /* Team Section */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 60px; }
+        .team-card { text-align: center; }
+        .team-img { 
+            width: 100%; height: 550px; object-fit: cover; 
+            filter: grayscale(0%); margin-bottom: 20px;
+            border-bottom: 4px solid var(--mustard);
+        }
+
+        /* --- MODERN TEAM CARD STYLES --- */
+        .team-card-modern {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column; /* Stack vertically on small screens */
+            transition: all 0.3s var(--ease);
+        }
+
+        .team-card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .team-img-container {
+            width: 100%;
+            height: 350px; /* Fixed height for consistency */
+            overflow: hidden;
+        }
+
+        .team-img-modern {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s var(--ease);
+        }
+
+        .team-card-modern:hover .team-img-modern {
+            transform: scale(1.05);
+        }
+
+        .team-content {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-role {
+            color: var(--mustard-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .team-description {
+            font-size: 0.95rem;
+            color: #4b5563;
+            margin-bottom: 25px;
+            flex-grow: 1; /* Pushes contact info to the bottom */
+        }
+
+        .team-contact-info {
+            margin-top: auto; /* Pushes to the bottom */
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .team-rep-num {
+            font-size: 0.85rem;
+            color: #6B7280;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .team-email {
+            display: inline-block;
+            color: var(--black);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s var(--ease);
+        }
+
+        .team-email::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--mustard);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s var(--ease);
+        }
+
+        .team-email:hover {
+            color: var(--mustard-dark);
+        }
+
+        .team-email:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .team-socials-modern {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .team-social-link {
+            width: 32px;
+            height: 32px;
+            background-color: var(--gray-light);
+            color: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s var(--ease);
+            text-decoration: none;
+        }
+
+        .team-social-link:hover {
+            background-color: var(--mustard);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+
+        /* Review Card Style */
+        .testimonial-card {
+            background: var(--white); padding: 40px; border: 1px solid #E5E7EB;
+            border-radius: var(--radius); height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+            transition: 0.4s var(--ease);
+        }
+        .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .stars { color: var(--mustard); margin-bottom: 15px; font-size: 0.9rem; }
+
+        /* --- FAQ STYLES --- */
+        .faq-wrapper { max-width: 800px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid #e5e7eb; margin-bottom: 15px; }
+        .faq-question {
+            width: 100%; text-align: left; background: none; border: none; padding: 24px 0;
+            font-size: 1.2rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            color: var(--black); transition: color 0.3s var(--ease);
+        }
+        .faq-question:hover { color: var(--mustard-dark); }
+        .faq-toggle-icon { font-size: 1rem; transition: transform 0.4s var(--ease); color: var(--mustard-dark); }
+        .faq-item.active .faq-toggle-icon { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease), padding 0.4s var(--ease);
+            opacity: 0.8; padding-bottom: 0;
+        }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 24px; }
+
+
+        /* --- ANIMATIONS --- */
+        .anim-up { opacity: 0; transform: translateY(var(--anim-distance)); transition: all var(--anim-duration) var(--ease); }
+        .anim-scale { opacity: 0; transform: scale(0.85); transition: all var(--anim-duration) var(--ease); }
+        .active { opacity: 1; transform: translate(0,0) scale(1); }
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #050505; color: #E5E7EB; padding: 100px 0 40px; font-size: 1rem;
+            position: relative; border-top: 4px solid var(--mustard); overflow: hidden;
+        }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 80px; }
+        .footer-brand h4 { color: var(--white); font-size: 1.8rem; margin-bottom: 20px; letter-spacing: -1px; text-transform: uppercase; position: relative; display: inline-block; }
+        
+        .footer-reveal-mask {
+            display: inline-block; position: relative;
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .footer-reveal-mask.active { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+
+        .footer-brand p { color: #9CA3AF; max-width: 350px; font-size: 1rem; line-height: 1.7; }
+        .footer-col h5 { color: var(--white); font-size: 1.1rem; margin-bottom: 25px; font-weight: 700; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 16px; }
+        .footer-col a { color: #9CA3AF; font-weight: 500; transition: all 0.3s ease; display: inline-block; }
+        .footer-col a:hover { color: var(--mustard); transform: translateX(5px); }
+
+        .footer-bottom {
+            border-top: 1px solid #262626; padding-top: 30px; font-size: 0.85rem; color: #6B7280;
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .footer-bottom p:last-child { text-align: center; margin-top: 20px; width: 100%; }
+        
+        /* from feedback Footer company logo*/
+        /* Container to align Logo and Text side-by-side */
+        .footer-logo-lockup {
+            display: flex;
+            align-items: center;
+            gap: 15px;      /* Space between logo and text */
+            margin-bottom: 20px; /* Spacing below the whole header */
+        }
+
+        /* Sizing for the Footer Logo */
+        .footer-logo-icon {
+            height: 45px;   /* Matches the visual weight of the H4 text */
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* Remove the old margin from H4, as the lockup container handles it now */
+        .footer-brand h4 {
+            margin-bottom: 0;
+        }
+
+        .social-links { display: flex; gap: 20px; }
+        .social-links a {
+            width: 40px; height: 40px; border-radius: 50%; background: #1A1A1A;
+            display: flex; align-items: center; justify-content: center; color: var(--white); transition: all 0.3s ease;
+        }
+        .social-links a:hover { background: var(--mustard); color: var(--black); transform: translateY(-3px); }
+
+        /* Add this inside the <style> tag in tools.html */
+        section[id] {
+            /* 80px for the navbar + 40px extra breathing room */
+            scroll-margin-top: 120px; 
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 968px) {
+            .contact-box, .footer-grid, .grid-3 { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .contact-box { margin-bottom: 50px; }
+            .contact-panel-dark, .contact-panel-form { padding: 40px 24px; }
+            
+            nav .btn-mustard { display: none; }
+            .logo-gif { height: 40px; }
+            .logo-text { font-size: 1.1rem; }
+            
+            .mobile-toggle { font-size: 1.8rem; padding: 5px; }
+
+            /* Mobile Dropdown */
+            .nav-item { flex-direction: column; align-items: flex-start; width: 100%; height: auto; }
+            .dropdown-menu {
+                position: static; box-shadow: none; border-top: none; border-left: 2px solid var(--mustard);
+                transform: none; opacity: 1; visibility: visible; display: none; width: 100%;
+                margin-left: 10px; background: transparent; padding: 0;
+            }
+            .nav-item:hover .dropdown-menu {
+                display: none; /* Prevents CSS hover from interfering with JS click */  
+            }
+            .dropdown-menu a { padding: 10px 15px; border-bottom: none; }
+
+            /* Reveal the Contact link on Mobile */
+            .mobile-cta-link {
+                display: block !important;
+                color: var(--mustard-dark) !important; /* Make it stand out */
+                font-weight: 700 !important;
+                border-bottom: none !important; /* Optional: Remove border for the last item */
+            }
+        }
+
+        /* --- RESPONSIVE LAYOUT FOR LARGER SCREENS --- */
+        @media (min-width: 768px) {
+            .team-card-modern {
+                flex-direction: row; /* Side-by-side on desktop */
+                align-items: stretch;
+            }
+            .team-img-container {
+                width: 45%; /* Image takes up 45% */
+                height: auto; /* Height adjusts to content */
+                min-height: 400px;
+            }
+            .team-content {
+                width: 55%; /* Content takes up 55% */
+                padding: 40px;
+            }
+        }
+
+        /* Mobile Menu */
+        .nav-links.mobile-active {
+            display: flex !important; flex-direction: column; position: fixed; top: 80px; left: 0;
+            width: 100%; height: calc(100vh - 80px); background: var(--white); padding: 20px 24px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-top: 1px solid #eee; z-index: 999; overflow-y: auto;
+            animation: slideDown 0.3s ease forwards;
+        }
+        .nav-links.mobile-active a { padding: 15px 24px; width: 100%; border-bottom: 1px solid #f3f4f6; }
+        .nav-links.mobile-active .nav-item { width: 100%; align-items: flex-start; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hide the mobile contact link by default on Desktop */
+        .mobile-cta-link {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="container nav-inner">
+            <a href="/FirstAidFinanceDemoV1/index.html" class="logo">
+                <img src="/FirstAidFinanceDemoV1/images/Transparent_icon_firstaid.webp" alt="First Aid Finance Logo" class="logo-gif">
+                <div class="logo-text">
+                    First Aid <span>Finance</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="/FirstAidFinanceDemoV1/index.html">Home</a>
+
+                <div class="nav-item">
+                    <a href="#" class="dropdown-trigger">
+                        Services <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="/FirstAidFinanceDemoV1/services/service-private-practice.html">Private Practice</a>
+                        <a href="#">Home Loans & Mortgages</a>
+                        <a href="#">Vehicle Finance</a>
+                        <a href="#">Commercial Property</a>
+                        <a href="#">SMSF Lending</a>
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <a href="#" class="dropdown-trigger">
+                        Case Studies <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="/FirstAidFinanceDemoV1/caseStudies/case-study-vehicle.html">Nurse Vehicle Loan</a>
+                        <a href="#">Doctor Home Loan</a>
+                        <a href="#">Clinic Fitout</a>
+                        <a href="#">Debt Consolidation</a>
+                    </div>
+                </div>
+
+                <a href="/FirstAidFinanceDemoV1/tools/tools.html">Tools</a>
+                <a href="/FirstAidFinanceDemoV1/about/aboutus.html">About</a>
+
+                <a href="/FirstAidFinanceDemoV1/contact/contactus.html" class="mobile-cta-link">Contact Us</a>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="#contact" class="btn btn-mustard">Get in Touch</a>
+                <div class="mobile-toggle"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="contact-hero">
+        <div class="container anim-up">
+            <span class="label">Contact Us</span>
+            <h1>How can <span>we help?</span></h1>
+            <p style="max-width: 700px; margin: 0 auto;">Our team is ready to assist with your specialized finance needs. Reach out today for a strategy session.</p>
+        </div>
+    </header>
+
+    <section id="contact" class="contact-section-new">
+        <div class="container">
+            <div class="contact-box anim-up">
+                
+                <div class="contact-panel-dark">
+                    <div>
+                        <span class="label" style="background: rgba(255,255,255,0.1); color: var(--mustard); margin-bottom: 20px;">Let's Talk</span>
+                        <h3>Your future starts here.</h3>
+                        <p>Whether you're curious about LMI waivers or need complex practice finance, we speak your language.</p>
+                        
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="info-text">
+                                <h5>Visit Us</h5>
+                                <p>Level 1, Suite A/207-209 Warrigal Rd<br>Hughesdale VIC 3166</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="info-text">
+                                <h5>Call Us</h5>
+                                <p>(03) 9114 8963</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="info-text">
+                                <h5>Email</h5>
+                                <p>info@firstaidfinance.com.au</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-panel-form">
+                    <form>
+                        <div class="field-group">
+                            <label class="field-label">Full Name</label>
+                            <input type="text" class="field-input" placeholder="e.g. Dr. John Doe">
+                        </div>
+                        
+                        <div class="field-group">
+                            <label class="field-label">Profession</label>
+                            <input type="text" class="field-input" placeholder="e.g. Registered Nurse">
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Email Address</label>
+                            <input type="email" class="field-input" placeholder="e.g. john@clinic.com">
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Message</label>
+                            <input type="text" class="field-input" placeholder="How can we help?">
+                        </div>
+
+                        <button type="submit" class="btn btn-mustard" style="width: 100%; margin-top: 20px; justify-content: center;">
+                            Send Message <i class="fa-solid fa-arrow-right" style="font-size: 0.8em; margin-left: 5px;"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="full-width-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6286.426132451041!2d145.270163!3d-38.018812!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x446f14eba2787c77%3A0x353c4f2e61a09db0!2sFirst%20Aid%20Finance!5e0!3m2!1sen!2sau!4v1768909879675!5m2!1sen!2sau" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <section id="team" class="section-padding bg-light">
+        <div class="container">
+            <div class="section-header reveal" style="text-align: center; margin: 0 auto 60px; max-width: 600px;">
+                <span class="label">The Team</span>
+                <h2>Meet Your Advisors</h2>
+                <p>Dedicated experts who understand the challenges faced by allied health professionals.</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card-modern anim-scale">
+                    <div class="team-img-container">
+                        <img src="/FirstAidFinanceDemoV1/images/Aarash_Firstaidfinance.webp" alt="Aarash Salimi" class="team-img-modern">
+                    </div>
+                    <div class="team-content">
+                        <span class="team-role">Founder & Senior Advisor</span>
+                        <h3 class="team-name">Aarash Salimi</h3>
+                        <p class="team-description">Leading the mission to provide tailored financial outcomes for the medical community. Aarash is dedicated to understanding the unique needs of each client.</p>
+                        
+                        <div class="team-contact-info">
+                            <div class="team-rep-num">Credit Rep Number: 531726</div>
+                            <a href="mailto:aarash@firstaidfinance.com.au" class="team-email">aarash@firstaidfinance.com.au</a>
+                            <div class="team-socials-modern">
+                                <a href="https://www.facebook.com/FirstAFinance" target="_blank" rel="noopener noreferrer" class="team-social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://au.linkedin.com/in/aarash-salimi-73477219b?trk=people-guest_people_search-card" target="_blank" rel="noopener noreferrer" class="team-social-link" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="https://api.whatsapp.com/message/VNWSPI7DUXXCM1?autoload=1&app_absent=0" target="_blank" rel="noopener noreferrer" class="team-social-link" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card-modern anim-scale delay-200">
+                    <div class="team-img-container">
+                        <img src="/FirstAidFinanceDemoV1/images/Richard_Firstaidfinance.webp" alt="Richard Su" class="team-img-modern">
+                    </div>
+                    <div class="team-content">
+                        <span class="team-role">Mortgage Specialist</span>
+                        <h3 class="team-name">Richard Su</h3>
+                        <p class="team-description">Expert guidance in securing home and investment loans with specialist lender policies. Richard helps navigate complex lending scenarios with ease.</p>
+                        
+                        <div class="team-contact-info">
+                            <div class="team-rep-num">Credit Rep Number: 558986</div> 
+                            <a href="mailto:richard@firstaidfinance.com.au" class="team-email">richard@firstaidfinance.com.au</a>
+                            <div class="team-socials-modern">
+                                <a href="https://www.facebook.com/FirstAFinance" target="_blank" rel="noopener noreferrer" class="team-social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://www.linkedin.com/in/richard-su-1ba383193/?original_referer=https%3A%2F%2Fwww%2Egoogle%2Ecom%2F&originalSubdomain=au" target="_blank" rel="noopener noreferrer" class="team-social-link" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="https://wa.me/61480648203" target="_blank" rel="noopener noreferrer" class="team-social-link" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px;" class="anim-up">
+                <div class="section-header" style="margin-bottom: 0;">
+                    <span class="label">Testimonials</span>
+                    <h2>Trusted by Peers</h2>
+                    <p>We’ve helped hundreds of healthcare professionals achieve their goals.</p>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="testimonial-card anim-scale">
+                    <div>
+                        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p style="margin-bottom: 20px;">"Aarash made the process of buying my first home as a nurse so simple. He knew exactly which banks would accept my overtime."</p>
+                    </div>
+                    <h4 style="font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 15px;">Sarah T., Registered Nurse</h4>
+                </div>
+                
+                <div class="testimonial-card anim-scale delay-100">
+                    <div>
+                        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p style="margin-bottom: 20px;">"The team at First Aid Finance helped me secure funding for my chiropractic clinic when others said it was too risky."</p>
+                    </div>
+                    <h4 style="font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 15px;">Dr. Michael L., Chiropractor</h4>
+                </div>
+                
+                <div class="testimonial-card anim-scale delay-200">
+                    <div>
+                        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p style="margin-bottom: 20px;">"Professional, knowledgeable, and always available. They truly understand the health industry's needs."</p>
+                    </div>
+                    <h4 style="font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 15px;">James P., Psychologist</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-light">
+        <div class="container">
+            <div class="section-header anim-up">
+                <span class="label">FAQ</span>
+                <h2>Common Questions</h2>
+            </div>
+            
+            <div class="faq-wrapper anim-up delay-100">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do you charge for consultations?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">No, our initial consultations are completely free of charge. We are typically paid by the lenders, meaning you get expert advice at no cost to you.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is an LMI waiver?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">Lenders Mortgage Insurance (LMI) is usually required if you have less than a 20% deposit. However, many allied health professionals qualify for waivers, allowing you to buy with as little as 5-10% deposit without the extra cost.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can you help if I'm a locum or contractor?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">Absolutely. We specialize in irregular income patterns, including locum work, casual shift loading, and private contracting.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Which professional bodies do you work with?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">We work with AHPRA registered professionals including Nurses, Psychologists, Physiotherapists, Chiropractors, and more.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-reveal-mask">
+                        <div class="footer-logo-lockup">
+                            <img src="/FirstAidFinanceDemoV1/images/Transparent_icon_firstaid.webp" alt="First Aid Finance Icon" class="footer-logo-icon">
+                            <h4>First Aid <span style="color: var(--mustard);">Finance</span></h4>
+                        </div>
+                    </div>
+                    <p>Specialised financial solutions tailored for allied health professionals. We deal with the banks so you can focus on what matters most: your patients.</p>
+                    
+                    <div class="social-links" style="margin-top: 30px;">
+                        <a href="https://www.facebook.com/FirstAFinance" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.linkedin.com/company/first-aid-finance/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/firstaidfinance/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="/FirstAidFinanceDemoV1/about/aboutus.html">About Us</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/services/service-private-practice.html">Our Services</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/caseStudies/case-study-vehicle.html">Case Studies</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/contact/contactus.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h5>Advisors</h5>
+                    <ul>
+                        <li><a href="/FirstAidFinanceDemoV1/about/aboutus.html">Aarash Salimi</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/about/aboutus.html">Richard Su</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/about/aboutus.html">Team Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="/FirstAidFinanceDemoV1/404.html">Privacy Policy</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/404.html">Terms of Use</a></li>
+                        <li><a href="/FirstAidFinanceDemoV1/404.html">Credit Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p style="max-width: 800px;">Aarash Salimi Australian Credit Representative number 531726.</p>
+                <p style="max-width: 800px;">Salimi Financial Services Pty Ltd Australian Credit Representative number 561694.</p>
+                <p style="max-width: 1000px;">Are licensed Credit Representatives of QED Credit Services Pty Ltd Australian Credit Licence number 387856.</p>
+                <p>© 2026 First Aid Finance. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Navigation Gradient on Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            const isMobile = window.innerWidth < 968;
+            const threshold = isMobile ? 20 : 50;
+            if (window.scrollY > threshold) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. INTERSECTION OBSERVER
+        const observerOptions = { root: null, threshold: 0, rootMargin: '0px 0px -30% 0px' };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    target.classList.add('active');
+                    if (target.classList.contains('footer-reveal-mask')) {
+                        target.classList.add('active');
+                    }
+                    observer.unobserve(target);
+                }
+            });
+        }, observerOptions);
+
+        const animatedElements = document.querySelectorAll('.anim-up, .anim-scale, .footer-reveal-mask');
+        animatedElements.forEach(el => observer.observe(el));
+
+        // 3. UPDATED MOBILE MENU LOGIC
+        const mobileBtn = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-active');
+            const icon = mobileBtn.querySelector('i');
+            if (navLinks.classList.contains('mobile-active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // 4. MOBILE DROPDOWN TOGGLE
+        document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                if (window.innerWidth < 968) {
+                    e.preventDefault();
+                    const parent = trigger.parentElement;
+                    const dropdown = parent.querySelector('.dropdown-menu');
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        if (item !== parent) {
+                            const otherDropdown = item.querySelector('.dropdown-menu');
+                            if(otherDropdown) otherDropdown.style.display = 'none';
+                        }
+                    });
+                    if (dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    } else {
+                        dropdown.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // 5. FAQ Accordion Logic
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                // Close others
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem) item.classList.remove('active');
+                });
+                // Toggle current
+                faqItem.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
